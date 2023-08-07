@@ -1,4 +1,4 @@
-package com.droid.magicapp.utils
+package com.droid.magicapp.call_logs.utils
 
 
 import android.util.Log
