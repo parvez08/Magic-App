@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Magic App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="incoming_call_at">Incoming Call at</string>
+    <string name="outgoing_call_at">Outgoing Call at</string>
+    <string name="missed_call_at">Missed Call at</string>
+    <string name="rejected_call_at">Rejected Call at</string>
+    <string name="blocked_number_call_at">Blocked Number Call at</string>
+    <string name="voicemail_call_at">Voicemail Call at</string>
+    <string name="unknown_call_at">Unknown Call at</string>
+</resources>
