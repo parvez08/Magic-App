@@ -16,7 +16,7 @@ import com.droid.magicapp.databinding.RowCallLogLayoutBinding
 
 
 internal class CallLogsAdapter(
-    private var selectedProduct: ArrayList<CallLogEntry>,
+    private var selectedCallLog: ArrayList<CallLogEntry>,
     private var context: Context,
     private var mOnSelectedListenerCallback: OnCallLogSelectedListenerCallback
 ) :
@@ -70,27 +70,27 @@ internal class CallLogsAdapter(
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: CallLogsItemViewHolder, position: Int) {
-        val callLogsItemModel = selectedProduct[position]
+        val callLogsItemModel = selectedCallLog[position]
         holder.bind(callLogsItemModel)
     }
 
     override fun getItemCount(): Int {
-        return selectedProduct.size
+        return selectedCallLog.size
     }
 
     fun addItemAtLast(callLogModel: CallLogEntry) {
-        selectedProduct.add(callLogModel)
-        notifyItemInserted(selectedProduct.size - 1)
+        selectedCallLog.add(callLogModel)
+        notifyItemInserted(selectedCallLog.size - 1)
     }
 
     fun clearAndAddData(callLogsItems: ArrayList<CallLogEntry>) {
-        this.selectedProduct.clear()
-        this.selectedProduct.addAll(callLogsItems)
+        this.selectedCallLog.clear()
+        this.selectedCallLog.addAll(callLogsItems)
         this.notifyDataSetChanged()
     }
 
     fun clear() {
-        this.selectedProduct.clear()
+        this.selectedCallLog.clear()
         this.notifyDataSetChanged()
     }
 
