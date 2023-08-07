@@ -10,13 +10,13 @@ import com.droid.magicapp.call_logs.adapters.CallLogsAdapter
 import com.droid.magicapp.call_logs.adapters.OnCallLogSelectedListenerCallback
 import com.droid.magicapp.call_logs.models.CallLogEntry
 import com.droid.magicapp.databinding.FragmentCallLogsBinding
-import com.droid.magicapp.utils.CallLogsDataBaseHandler
+import com.droid.magicapp.call_logs.utils.CallLogsDataBaseHandler
 
 
 class CallLogsFragment : Fragment() {
     private lateinit var binding: FragmentCallLogsBinding
     private val callLogsDataBaseHandler: CallLogsDataBaseHandler = CallLogsDataBaseHandler()
-    private val phoneNumber: String = "8867817008"
+    private val phoneNumber: String = ""
     private var callLogsList: ArrayList<CallLogEntry> = arrayListOf()
     private lateinit var callLogsAdapter: CallLogsAdapter
 
