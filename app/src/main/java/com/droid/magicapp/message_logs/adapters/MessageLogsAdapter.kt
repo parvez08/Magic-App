@@ -1,6 +1,5 @@
 package com.droid.magicapp.message_logs.adapters
 
-
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -11,33 +10,14 @@ import com.droid.magicapp.call_logs.utils.CallDateUtils
 import com.droid.magicapp.databinding.RowMessageLayoutBinding
 import com.droid.magicapp.message_logs.models.InboxMessage
 
-
-internal class MessageLogsAdapter(
-    private var selectedMessage: ArrayList<InboxMessage>,
-    private var context: Context,
-    private var mOnSelectedListenerCallback: OnSMSLogSelectedListenerCallback
+class MessageLogsAdapter(
+    private val context: Context,
+    private val mOnSelectedListenerCallback: OnSMSLogSelectedListenerCallback
 ) :
     RecyclerView.Adapter<MessageLogsAdapter.SMSLogsItemViewHolder>() {
 
-    inner class SMSLogsItemViewHolder(private val smsLogBinding: RowMessageLayoutBinding) :
-        RecyclerView.ViewHolder(smsLogBinding.root) {
-
-        fun bind(smsLog: InboxMessage) {
-            smsLogBinding.apply {
-
-                tvMessengerNumber.text = smsLog.address
-
-                tvMessageBody.text = smsLog.body
-
-                val formattedCallDate = CallDateUtils.formatCallDate(smsLog.date ?: 0)
-                tvDateTime.text = formattedCallDate
-
-                root.setOnClickListener {
-                    mOnSelectedListenerCallback.onSelected(adapterPosition)
-                }
-            }
-        }
-    }
+    private var allMessagesList: Map<String, List<InboxMessage>> = emptyMap()
+    private val selectedMessage = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SMSLogsItemViewHolder {
         val smsLogsBinding = RowMessageLayoutBinding.inflate(
@@ -48,35 +28,50 @@ internal class MessageLogsAdapter(
         return SMSLogsItemViewHolder(smsLogsBinding)
     }
 
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: SMSLogsItemViewHolder, position: Int) {
         val smsLogsItemModel = selectedMessage[position]
         holder.bind(smsLogsItemModel)
     }
 
-    override fun getItemCount(): Int {
-        return selectedMessage.size
-    }
+    override fun getItemCount(): Int = selectedMessage.size
 
-    fun addItemAtLast(smsLogModel: InboxMessage) {
-        selectedMessage.add(smsLogModel)
-        notifyItemInserted(selectedMessage.size - 1)
-    }
-
-    fun clearAndAddData(smsLogsItems: ArrayList<InboxMessage>) {
-        this.selectedMessage.clear()
-        this.selectedMessage.addAll(smsLogsItems)
-        this.notifyDataSetChanged()
+    fun clearAndAddData(smsLogsItems: List<String>, allMessages: Map<String, List<InboxMessage>>) {
+        allMessagesList = allMessages
+        selectedMessage.clear()
+        selectedMessage.addAll(smsLogsItems)
+        notifyDataSetChanged()
     }
 
     fun clear() {
-        this.selectedMessage.clear()
-        this.notifyDataSetChanged()
+        selectedMessage.clear()
+        notifyDataSetChanged()
     }
 
+    inner class SMSLogsItemViewHolder(private val smsLogBinding: RowMessageLayoutBinding) :
+        RecyclerView.ViewHolder(smsLogBinding.root) {
+
+        fun bind(smsLog: String) {
+            smsLogBinding.apply {
+                val messagesForNumber = allMessagesList[smsLog]
+                val firstMessage = messagesForNumber?.getOrNull(0)
+
+                tvMessengerNumber.text = smsLog
+                tvMessageBody.text = firstMessage?.body
+
+                val formattedCallDate = CallDateUtils.formatCallDate(firstMessage?.date ?: 0)
+                tvDateTime.text = formattedCallDate
+
+                root.setOnClickListener {
+                    messagesForNumber?.let {
+                        mOnSelectedListenerCallback.onSelected(adapterPosition, it)
+                    }
+                }
+            }
+        }
+    }
 }
 
 interface OnSMSLogSelectedListenerCallback {
-    fun onSelected(position: Int)
+    fun onSelected(position: Int, value: List<InboxMessage>)
 }
