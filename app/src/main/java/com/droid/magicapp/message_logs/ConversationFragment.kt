@@ -73,22 +73,22 @@ class ConversationFragment : Fragment() {
                 }
             }
 
-            private fun <T : ViewBinding> configureMessageView(binding: T, smsLog: InboxMessage?) {
-                when (binding) {
+            private fun <T : ViewBinding> configureMessageView(viewTypeBinding: T, smsLog: InboxMessage?) {
+                when (viewTypeBinding) {
                     is RowItemSentMessageBinding -> {
-                        binding.tvMessengerNumber.text = smsLog?.address
-                        binding.tvMessageBody.text = smsLog?.body
+                        viewTypeBinding.tvMessengerNumber.text = smsLog?.address
+                        viewTypeBinding.tvMessageBody.text = smsLog?.body
 
                         val formattedCallDate = CallDateUtils.formatCallDate(smsLog?.date ?: 0)
-                        binding.tvDateTime.text = "$formattedCallDate  ✔✔"
+                        viewTypeBinding.tvDateTime.text = "$formattedCallDate  ✔✔"
                     }
 
                     is RowItemReceivedMessageBinding -> {
-                        binding.tvMessengerNumber.text = smsLog?.address
-                        binding.tvMessageBody.text = smsLog?.body
+                        viewTypeBinding.tvMessengerNumber.text = smsLog?.address
+                        viewTypeBinding.tvMessageBody.text = smsLog?.body
 
                         val formattedCallDate = CallDateUtils.formatCallDate(smsLog?.date ?: 0)
-                        binding.tvDateTime.text = formattedCallDate
+                        viewTypeBinding.tvDateTime.text = formattedCallDate
                     }
 
                     else -> throw IllegalArgumentException("Invalid ViewBinding type")
@@ -141,10 +141,6 @@ class ConversationFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true)
         }
-    }
-
-    private fun setSentMsgData() {
-
     }
 
     companion object {
