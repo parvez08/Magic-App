@@ -1,6 +1,5 @@
 package com.droid.magicapp.message_logs.adapters
 
-import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import com.droid.magicapp.databinding.RowMessageLayoutBinding
 import com.droid.magicapp.message_logs.models.InboxMessage
 
 class MessageLogsAdapter(
-    private val context: Context,
     private val mOnSelectedListenerCallback: OnSMSLogSelectedListenerCallback
 ) :
     RecyclerView.Adapter<MessageLogsAdapter.SMSLogsItemViewHolder>() {
