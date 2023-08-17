@@ -22,11 +22,13 @@ class MessageLogsDataBaseHandler {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val messageList = mutableListOf<InboxMessage>()
                 for (messageSnapshot in dataSnapshot.children) {
+                    val id = messageSnapshot.child("_id").getValue(String::class.java)
                     val sender = messageSnapshot.child("address").getValue(String::class.java)
                     val content = messageSnapshot.child("body").getValue(String::class.java)
                     val timestamp = messageSnapshot.child("date").getValue(Long::class.java)
+                    val type = messageSnapshot.child("sent").getValue(Boolean::class.java)
 
-                    messageList.add(InboxMessage(sender, content, timestamp))
+                    messageList.add(InboxMessage(id, sender, content, timestamp, type))
                 }
                 callback(messageList)
             }
