@@ -17,9 +17,10 @@ class MessageLogsFragment : Fragment() {
     private lateinit var binding: FragmentMessageLogsBinding
     private val messageLogsDataBaseHandler: MessageLogsDataBaseHandler =
         MessageLogsDataBaseHandler()
-    private val phoneNumber: String = "7760237886"
-    private var messageLogsList: ArrayList<InboxMessage> = arrayListOf()
+    private val phoneNumber: String = ""
+    private var messageLogsList: ArrayList<String> = arrayListOf()
     private lateinit var messageLogsAdapter: MessageLogsAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +37,32 @@ class MessageLogsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         messageLogsDataBaseHandler.fetchMessagesForNumber(phoneNumber) { messageList ->
-            messageLogsList = messageList as ArrayList<InboxMessage>
-            messageLogsAdapter.clearAndAddData(messageLogsList)
+            val messageLogsListt = messageList as ArrayList<InboxMessage>
+
+            val groupedMessages: Map<String, List<InboxMessage>> = messageLogsListt
+                .groupBy { it.address.toString() }
+
+            // Now you have the grouped messages and you can proceed to use the adapter
+
+            messageLogsAdapter.clearAndAddData(groupedMessages.keys.toList(), groupedMessages)
+
         }
         setUpRv()
+
     }
 
     private fun setUpRv() {
         messageLogsAdapter = MessageLogsAdapter(
-            messageLogsList,
-            requireContext(),
             object : OnSMSLogSelectedListenerCallback {
-                override fun onSelected(position: Int) {
-
+                override fun onSelected(position: Int, value: List<InboxMessage>) {
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.add(
+                            android.R.id.content, ConversationFragment.newInstance(
+                                value
+                            ), ConversationFragment.TAG2
+                        )
+                        ?.addToBackStack(ConversationFragment.TAG2)
+                        ?.commit()
                 }
 
             }
