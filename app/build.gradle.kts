@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("kotlin-android")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
 }
@@ -57,6 +58,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.0.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.core:core-ktx:1.10.1")
 
     // Worker Class
     implementation("androidx.work:work-runtime-ktx:2.8.1")
