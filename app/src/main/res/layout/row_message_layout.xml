@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -9,19 +10,32 @@
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_message_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#36454F"
             android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/iv_person"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="@drawable/bg_circle"
+                app:tint ="@color/white"
+                android:src="@drawable/baseline_person_24"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_message_body"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_messenger_number" />
 
             <TextView
                 android:id="@+id/tv_messenger_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:text="XYZ Person"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_person"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -29,8 +43,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:lines="2"
+                android:maxLines="2"
                 android:text="@string/lorem_ipsum"
-                android:textAlignment="textStart"
+                android:textAlignment="viewStart"
                 android:textColor="#808080"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
